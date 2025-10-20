@@ -442,7 +442,9 @@ class QoS:
             logger.debug('basic.qos: prefetch_count->%s', new_value)
 
             logger.info('basic.qos: prefetch_count->%s', new_value)
-            raise Exception("diagnostic exception")
+
+            if new_value == 3:
+                raise Exception("diagnostic exception")
 
             self.callback(prefetch_count=new_value)
             self.prev = pcount
