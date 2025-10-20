@@ -18,6 +18,8 @@ from .log import get_logger
 from .serialization import registry as serializers
 from .utils.uuid import uuid
 
+import traceback
+
 __all__ = ('Broadcast', 'maybe_declare', 'uuid',
            'itermessages', 'send_reply',
            'collect_replies', 'insured', 'drain_consumer',
@@ -438,6 +440,17 @@ class QoS:
                                PREFETCH_COUNT_MAX)
                 new_value = 0
             logger.debug('basic.qos: prefetch_count->%s', new_value)
+
+            logger.info('basic.qos: prefetch_count->%s', new_value)
+            try:
+                raise Exception("diagnostic exception")
+            except Exception:
+                logger.exception("Something odd happens here...")
+                #tb = traceback.format_exc()
+                #tbl = tb.split('\n')
+                #for i, l in enumerate(tbl):
+                #    logger.info(f'{i}: {l}')
+
             self.callback(prefetch_count=new_value)
             self.prev = pcount
         return pcount
