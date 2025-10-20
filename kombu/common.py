@@ -444,12 +444,15 @@ class QoS:
             logger.info('basic.qos: prefetch_count->%s', new_value)
             try:
                 raise Exception("diagnostic exception")
-            except Exception:
-                logger.exception("Something odd happens here...")
+            except Exception as e:
+                #logger.exception("Something odd happens here...")
                 #tb = traceback.format_exc()
                 #tbl = tb.split('\n')
                 #for i, l in enumerate(tbl):
                 #    logger.info(f'{i}: {l}')
+
+                logger.info(traceback.format_exception(None, e, e.__traceback__), flush=True)
+
 
             self.callback(prefetch_count=new_value)
             self.prev = pcount
