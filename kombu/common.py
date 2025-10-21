@@ -411,6 +411,8 @@ class QoS:
             The MainThread will be responsible for calling :meth:`update`
             when necessary.
         """
+
+        logger.info(f'kombu.common: QoS.increment_eventually({n}) called...')
         with self._mutex:
             if self.value:
                 self.value = self.value + max(n, 0)
