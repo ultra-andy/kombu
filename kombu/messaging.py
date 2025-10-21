@@ -12,12 +12,14 @@ from .entity import Exchange, Queue, maybe_delivery_mode
 from .exceptions import ContentDisallowed
 from .serialization import dumps, prepare_accept_content
 from .utils.functional import ChannelPromise, maybe_list
+from .log import get_logger
 
 if TYPE_CHECKING:
     from types import TracebackType
 
 __all__ = ('Exchange', 'Queue', 'Producer', 'Consumer')
 
+logger = get_logger(__name__)
 
 class Producer:
     """Message Producer.
@@ -665,6 +667,7 @@ class Consumer:
                 raise
             self.on_decode_error(message, exc)
         else:
+            logger.info(f'kombu.messaging.py: _receive_callback() - {decoded = } {message = }')
             return on_m(message) if on_m else self.receive(decoded, message)
 
     def __repr__(self):
